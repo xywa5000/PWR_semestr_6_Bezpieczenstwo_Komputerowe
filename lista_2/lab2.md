@@ -89,7 +89,6 @@
 
     Dane od kolegi:
     * **Hash:** `3eb3a40ba425f7e6e8a332f65e834e21`
-    * [Wynik programu hashid](ex1.4/hashid.txt)
     * **Złamane hasło:** `bitch@221` (Typ hasha: `MD4`)
 
 <br/>
