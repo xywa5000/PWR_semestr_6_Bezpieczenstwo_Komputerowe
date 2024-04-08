@@ -1,3 +1,10 @@
+Krzysztof Dobrucki\
+Politechnika Wrocławska\
+Wydział Informatyki i Telekomunikacji - W04\
+Informatyka Algorytmiczna\
+Semestr 6 - letni 2023/24\
+Bezpieczeństwo Komputerowe
+
 # Bezpieczeństwo komputerowe - [lab2](sec-lab2.pdf)
 
 ## Zadanie 1
@@ -34,8 +41,11 @@
 
     > Tutaj: `<min> <= <mask-length> <= <max>`
 
-
-    TODO: --increment
+    Przykładowe użycie dla powyższych danych:
+    ```bash
+    hashcat c5b389beb081fe1e43ae92e895deca086b4eed5cf9efc7b78eebbbc9dc75c3f0 ?d?d?d?d?d?d?d?d -i --increment-min=4 --increment-max=8 -m 1400 -a 3
+    ```
+    W tym przypadku sprawdzamy hasła złożone tylko z cyfr długości $n$, gdzie $4 <= n <= 8$
 
 <br />
 
@@ -135,7 +145,7 @@
 
 <br/>
 
-4. **Informacje przeczhwytywane przy protokołach HTTP oraz HTTPS**
+4. **Informacje przechwytywane przy protokołach HTTP oraz HTTPS**
 
     **Protokół HTTP:**
 
