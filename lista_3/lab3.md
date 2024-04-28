@@ -13,6 +13,12 @@
     * Bezpieczeństwo połączenia: `Bez szyfrowania`
     * Metoda uwierzytelniania: `Hasło przesyłane otwartym tekstem`
 
+    <div align="center">
+
+    ![](images/test_mail_settings.png)
+
+    <div align="left">
+
 3. Wysłano maila z maila studenckiego.
 4. Użyto sugerowanego programu - wireshark.
 5. Odebrano testowego maila w kliencie Thunderbird.
