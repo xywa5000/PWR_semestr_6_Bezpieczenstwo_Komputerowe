@@ -2,6 +2,56 @@
 
 ## Zadanie 1
 
+1. Opis
+
+    Algorytm Rivesta-Shamira-Adlemana (RSA) – jeden z pierwszych i obecnie najpopularniejszych asymetrycznych algorytmów kryptograficznych z kluczem publicznym, zaprojektowany w 1977 przez Rona Rivesta, Adiego Shamira oraz Leonarda Adlemana. Pierwszy algorytm, który może być stosowany zarówno do szyfrowania, jak i do podpisów cyfrowych. Bezpieczeństwo szyfrowania opiera się na trudności faktoryzacji dużych liczb złożonych.
+
+2. Jak działa?
+
+    Generowanie kluczy RSA jest procesem, który obejmuje kilka kroków matematycznych i kryptograficznych. Oto, jak ten proces wygląda szczegółowo:
+
+    1. Wybór liczb pierwszych
+    Na początek wybiera się dwie duże liczby pierwsze, oznaczane jako $ p $ i $ q $. Te liczby powinny być losowo wybrane i mieć podobną wielkość, aby zapewnić bezpieczeństwo klucza.
+
+    2. Obliczenie $ n $
+    Mnoży się wybrane liczby pierwsze $ p $ i $ q $, aby uzyskać wartość $ n $:
+    \[ n = p \cdot q \]
+    Liczba $ n $ jest częścią zarówno klucza publicznego, jak i prywatnego. Długość klucza RSA jest zwykle określana przez długość $ n $ w bitach (np. 2048-bitowy klucz RSA).
+
+    3. Obliczenie funkcji Eulera $ \phi(n) $
+    Funkcja Eulera, oznaczana jako $ \phi(n) $, jest obliczana na podstawie wybranych liczb pierwszych $ p $ i $ q $:
+    \[ \phi(n) = (p-1) \cdot (q-1) \]
+
+    4. Wybór wykładnika publicznego $ e $
+    Następnie wybiera się liczbę całkowitą $ e $, która musi spełniać dwa warunki:
+        1. $ 1 < e < \phi(n) $
+        2. $ e $ musi być względnie pierwsza z $ \phi(n) $ (to znaczy, że największy wspólny dzielnik $ \gcd(e, \phi(n)) = 1 $)
+    
+        Często wybieranymi wartościami dla $ e $ są 3, 17 lub 65537, ponieważ ułatwiają one obliczenia i mają dobre właściwości kryptograficzne.
+
+    5. Obliczenie wykładnika prywatnego $ d $
+    Wykładnik prywatny $ d $ jest obliczany jako multiplikatywna odwrotność $ e$ modulo $ \phi(n) $. Innymi słowy, $ d $ spełnia równanie:
+    $ d \cdot e \equiv 1 \ (\text{mod} \ \phi(n)) $
+    Można to obliczyć za pomocą rozszerzonego algorytmu Euklidesa.
+
+    6. Konstrukcja kluczy
+    Po wykonaniu powyższych kroków, można zbudować klucze:
+    - **Klucz publiczny**: składa się z pary $ (e, n) $
+    - **Klucz prywatny**: składa się z pary $ (d, n) $
+
+3. Zadanie
+
+    1. Wybieramy $ p $ i $ q $
+
+    2. Generujemy dwie pary kluczy:
+        - publicA   $(n, e_a)$
+        - privateA  $(n, d_a)$
+        - publicB   $(n, e_b)$
+        - privateB  $(n, d_b)$
+
+    3. Znając tylko trzy pierwsze chcemy złamać klucz privateB
+
+
 ## Zadanie 2
 
 1. Założono **profil zaufany**
