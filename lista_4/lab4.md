@@ -15,12 +15,12 @@
 
     2. Obliczenie $ n $
     Mnoży się wybrane liczby pierwsze $ p $ i $ q $, aby uzyskać wartość $ n $:
-    \[ n = p \cdot q \]
+    $ n = p \cdot q $
     Liczba $ n $ jest częścią zarówno klucza publicznego, jak i prywatnego. Długość klucza RSA jest zwykle określana przez długość $ n $ w bitach (np. 2048-bitowy klucz RSA).
 
     3. Obliczenie funkcji Eulera $ \phi(n) $
     Funkcja Eulera, oznaczana jako $ \phi(n) $, jest obliczana na podstawie wybranych liczb pierwszych $ p $ i $ q $:
-    \[ \phi(n) = (p-1) \cdot (q-1) \]
+    $ \phi(n) = (p-1) \cdot (q-1) $
 
     4. Wybór wykładnika publicznego $ e $
     Następnie wybiera się liczbę całkowitą $ e $, która musi spełniać dwa warunki:
