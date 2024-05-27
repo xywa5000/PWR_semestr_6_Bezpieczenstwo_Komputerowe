@@ -116,11 +116,11 @@ def attack(n, e, d):
     a = 2
     p=1
     while (a<100):
-        print(a)
+        # print(a)
         k = t
         flag = False
         while ( k<kphi):
-            #x = (a ** k) % n
+            # x = (a ** k) % n
             x = modular_exponentiation(a, k, n)
             if (x!=t and x!=n-1 and (x*x)%n==1):
                 p = gcd(x-1, n)
@@ -136,21 +136,29 @@ def attack(n, e, d):
 
 if __name__ == '__main__':
 
-    p = 8521
-    q = 2129
+    p = 13
+    q = 19
 
     publicA, privateA = generate_keypair(p, q)
     publicB, privateB = generate_keypair(p, q)
 
+    print("Generated keys:")
     print("PublicA: ", publicA)
     print("PrivateA: ", privateA)
     print("PublicB: ", publicB)
     print("PrivateB: ", privateB)
 
-    print("attack with: public and private A:")
+    print("\nattack with: public and private A:")
     print(publicA[0], publicA[1], privateA[1])
     p_prim, q_prim = attack(publicA[0], publicA[1], privateA[1])
 
     hacked_key = multiplicative_inverse(publicB[1], (p_prim-1)*(q_prim-1))
     print("original: ", privateB[1])
     print("hacked:   ", hacked_key)
+
+    print("\nCheck:")
+    print(f"de = {publicA[1]} * {privateA[1]} = {publicA[1] * privateA[1]}")
+    de = publicA[1] * privateA[1]
+    print(f"phi = ({p} - 1) * ({q} - 1) = {(p-1)*(q-1)}")
+    phi = (p-1)*(q-1)
+    print(de % phi)
