@@ -14,8 +14,7 @@
     Na początek wybiera się dwie duże liczby pierwsze, oznaczane jako $ p $ i $ q $. Te liczby powinny być losowo wybrane i mieć podobną wielkość, aby zapewnić bezpieczeństwo klucza.
 
     2. Obliczenie $ n $
-    Mnoży się wybrane liczby pierwsze $ p $ i $ q $, aby uzyskać wartość $ n $:
-    $ n = p \cdot q $
+    Mnoży się wybrane liczby pierwsze $ p $ i $ q $, aby uzyskać wartość $ n = p \cdot q $
     Liczba $ n $ jest częścią zarówno klucza publicznego, jak i prywatnego. Długość klucza RSA jest zwykle określana przez długość $ n $ w bitach (np. 2048-bitowy klucz RSA).
 
     3. Obliczenie funkcji Eulera $ \phi(n) $
