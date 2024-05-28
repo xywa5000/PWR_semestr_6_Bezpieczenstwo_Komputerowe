@@ -1,7 +1,7 @@
 import random
 
 
-def miller_rabin_test(n, k=20):
+def miller_rabin_test(n, k=40):
     """
     Przeprowadza test Millera-Rabina na liczbie n z k iteracjami.
     Zwraca True, jeśli n jest prawdopodobnie pierwsza, w przeciwnym razie False.
@@ -55,28 +55,37 @@ def gcd(a, b):
         a, b = b, a % b
     return a
 
-def multiplicative_inverse(e, phi):
-    d = 0
-    x1 = 0
-    x2 = 1
-    y1 = 1
-    temp_phi = phi
-    
-    while e > 0:
-        temp1 = temp_phi//e
-        temp2 = temp_phi - temp1 * e
-        temp_phi = e
-        e = temp2
-        
-        x = x2- temp1* x1
-        x2 = x1
-        x1 = x
-        
-        d = y1
-        y1 = x
-    
-    if temp_phi == 1:
-        return d + phi
+def extended_gcd(a, b):
+    """
+    Rozszerzony algorytm Euklidesa, który zwraca gcd(a, b) oraz współczynniki x i y takie, że ax + by = gcd(a, b)
+    """
+    if a == 0:
+        return b, 0, 1
+    gcd, x1, y1 = extended_gcd(b % a, a)
+    x = y1 - (b // a) * x1
+    y = x1
+    return gcd, x, y
+
+def iter_extended_gcd(a, b):
+    """
+    Iteracyjny rozszerzony algorytm Euklidesa, który zwraca gcd(a, b) oraz współczynniki x i y takie, że ax + by = gcd(a, b)
+    """
+    x0, x1, y0, y1 = 1, 0, 0, 1
+    while a != 0:
+        q, b, a = b // a, a, b % a
+        x0, x1 = x1, x0 - q * x1
+        y0, y1 = y1, y0 - q * y1
+    return b, x0, y0
+
+def mod_inverse(e, phi_n):
+    """
+    Znajduje odwrotność multiplikatywną e modulo phi_n za pomocą rozszerzonego algorytmu Euklidesa.
+    """
+    gcd, x, _ = extended_gcd(e, phi_n)
+    if gcd != 1:
+        raise ValueError("e nie ma odwrotności multiplikatywnej modulo phi(n)")
+    else:
+        return x % phi_n
 
 def generate_keypair(p, q):
     if not (miller_rabin_test(p) and miller_rabin_test(q)):
@@ -90,7 +99,7 @@ def generate_keypair(p, q):
     while g != 1:
         e = random.randrange(1, phi)
         g = gcd(e, phi)
-    d = multiplicative_inverse(e, phi)
+    d = mod_inverse(e, phi)
     return ((n, e), (n, d))
 
 def modular_exponentiation(a, k, n):
@@ -102,6 +111,17 @@ def modular_exponentiation(a, k, n):
         k = k >> 1  # Podziel k przez 2
         a = (a * a) % n  # Podnieś a do kwadratu
     return result
+
+def verify_keys(e, d, phi_n):
+    """
+    Sprawdza, czy d⋅e ≡ 1 (mod φ(n)).
+    
+    :param e: public exponent
+    :param d: private exponent
+    :param phi_n: Euler's totient function value for n
+    :return: True if the equality holds, otherwise False
+    """
+    return (d * e) % phi_n == 1, (d * e) % phi_n
 
 def attack(n, e, d):
     # 1
@@ -130,35 +150,5 @@ def attack(n, e, d):
         a = a + 2
         if flag:
             break
-    q = n / p
+    q = n // p
     return p, q
-
-
-if __name__ == '__main__':
-
-    p = 13
-    q = 19
-
-    publicA, privateA = generate_keypair(p, q)
-    publicB, privateB = generate_keypair(p, q)
-
-    print("Generated keys:")
-    print("PublicA: ", publicA)
-    print("PrivateA: ", privateA)
-    print("PublicB: ", publicB)
-    print("PrivateB: ", privateB)
-
-    print("\nattack with: public and private A:")
-    print(publicA[0], publicA[1], privateA[1])
-    p_prim, q_prim = attack(publicA[0], publicA[1], privateA[1])
-
-    hacked_key = multiplicative_inverse(publicB[1], (p_prim-1)*(q_prim-1))
-    print("original: ", privateB[1])
-    print("hacked:   ", hacked_key)
-
-    print("\nCheck:")
-    print(f"de = {publicA[1]} * {privateA[1]} = {publicA[1] * privateA[1]}")
-    de = publicA[1] * privateA[1]
-    print(f"phi = ({p} - 1) * ({q} - 1) = {(p-1)*(q-1)}")
-    phi = (p-1)*(q-1)
-    print(de % phi)
