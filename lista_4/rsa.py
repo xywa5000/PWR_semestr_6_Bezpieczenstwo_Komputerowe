@@ -24,9 +24,6 @@ def miller_rabin_test(n, k=40):
         r += 1
     
     def is_composite(a):
-        """
-        Sprawdza, czy n jest złożona dla danego świadka a.
-        """
         x = pow(a, d, n)
         if x == 1 or x == n - 1:
             return False
@@ -46,14 +43,22 @@ def miller_rabin_test(n, k=40):
 
 
 def is_prime(n):
+    """
+    Funkcja sprawdzająca czy podana liczba n jest pierwsza poprzez sprawdzenie potencjalnyuch dzielników do sqrt(n)
+    """
     if n <= 1 or (n % 2 == 0 and n > 2): 
         return False
     return all(n % i for i in range(3, int(n**0.5) + 1, 2))
 
+
 def gcd(a, b):
+    """
+    Klasyczny iteracyjny algorytm gcd
+    """
     while b != 0:
         a, b = b, a % b
     return a
+
 
 def extended_gcd(a, b):
     """
@@ -66,16 +71,6 @@ def extended_gcd(a, b):
     y = x1
     return gcd, x, y
 
-def iter_extended_gcd(a, b):
-    """
-    Iteracyjny rozszerzony algorytm Euklidesa, który zwraca gcd(a, b) oraz współczynniki x i y takie, że ax + by = gcd(a, b)
-    """
-    x0, x1, y0, y1 = 1, 0, 0, 1
-    while a != 0:
-        q, b, a = b // a, a, b % a
-        x0, x1 = x1, x0 - q * x1
-        y0, y1 = y1, y0 - q * y1
-    return b, x0, y0
 
 def mod_inverse(e, phi_n):
     """
@@ -87,7 +82,11 @@ def mod_inverse(e, phi_n):
     else:
         return x % phi_n
 
+
 def generate_keypair(p, q):
+    """
+    Generuje parę kluczy (publiczny i prywatny) na podstawie dwóch (różnych!) liczb pierwszych
+    """
     if not (miller_rabin_test(p) and miller_rabin_test(q)):
         raise ValueError('Both numbers must be prime.')
     elif p == q:
@@ -102,7 +101,11 @@ def generate_keypair(p, q):
     d = mod_inverse(e, phi)
     return ((n, e), (n, d))
 
+
 def modular_exponentiation(a, k, n):
+    """
+    Wylicza (a ** k) % n w spsoób, który minimalizuje ryzyko przepełnienia typu zmiennych
+    """
     result = 1
     a = a % n
     while k > 0:
@@ -112,37 +115,37 @@ def modular_exponentiation(a, k, n):
         a = (a * a) % n  # Podnieś a do kwadratu
     return result
 
+
 def verify_keys(e, d, phi_n):
     """
-    Sprawdza, czy d⋅e ≡ 1 (mod φ(n)).
-    
-    :param e: public exponent
-    :param d: private exponent
-    :param phi_n: Euler's totient function value for n
-    :return: True if the equality holds, otherwise False
+    Sprawdza, czy d⋅e ≡ 1 (mod φ(n))
     """
     return (d * e) % phi_n == 1, (d * e) % phi_n
 
+
 def attack(n, e, d):
+    """
+    Przeprowadza atak na klucz prywatny przy założeniu tego samego (p, q) dla atakującego i ofiary
+    """
     # 1
     kphi = d * e - 1
     t = kphi
 
     # 2
-    while (t%2==0):
-        t=t//2
+    while (t % 2 == 0):
+        t = t // 2
     
     # 3
     a = 2
-    p=1
+    p = 1
     while (a<100):
         # print(a)
         k = t
         flag = False
-        while ( k<kphi):
+        while (k < kphi):
             # x = (a ** k) % n
             x = modular_exponentiation(a, k, n)
-            if (x!=t and x!=n-1 and (x*x)%n==1):
+            if (x != t and x != n - 1 and (x * x) % n == 1):
                 p = gcd(x-1, n)
                 flag = True
                 break

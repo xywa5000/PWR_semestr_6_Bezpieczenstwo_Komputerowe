@@ -1,7 +1,4 @@
 from rsa import generate_keypair, attack, mod_inverse
-import sys
-
-#sys.setrecursionlimit(10000)  # Zwiększ limit rekursji, jeśli to konieczne
 
 if __name__ == '__main__':
 
