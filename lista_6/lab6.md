@@ -103,4 +103,34 @@
 
 4. openssl ocsp
 
-    
+    ```
+    $ openssl ocsp -issuer GEANT_OV_RSA_CA_4.crt -cert pwr.edu.pl.crt -url http://GEANT.ocsp.sectigo.com
+    WARNING: no nonce in response
+    Response verify OK
+    pwr.edu.pl.crt: good
+        This Update: Jun 14 21:01:26 2024 GMT
+        Next Update: Jun 21 21:01:25 2024 GMT
+    ```
+
+    ```
+    $ openssl ocsp -issuer USERTrust_RSA_Certification_Authority.crt -cert GEANT_OV_RSA_CA_4.crt -url http://GEANT.ocsp.sectigo.com
+    WARNING: no nonce in response
+    Response verify OK
+    GEANT_OV_RSA_CA_4.crt: good
+        This Update: Jun 16 16:37:30 2024 GMT
+        Next Update: Jun 23 16:37:29 2024 GMT
+    ```
+
+    "WARNING: no nonce in response" to ostrzeżenie dotyczy braku wartości nonce w odpowiedzi OCSP. Nonce jest opcjonalnym polem w żądaniu OCSP, które służy do zapewnienia unikalności odpowiedzi OCSP. Brak nonce nie jest zazwyczaj problemem, ale niektóre aplikacje lub zasady mogą wymagać jego obecności dla celów bezpieczeństwa.
+
+5. verify vs ocsp
+
+    Główna różnica między **openssl verify** a **openssl ocsp** polega na tym, że pierwsze narzędzie sprawdza poprawność certyfikatu w oparciu o lokalne dane i łańcuchy certyfikacji, podczas gdy drugie komunikuje się z serwerem OCSP, aby uzyskać aktualny status certyfikatu zgodnie z protokołem OCSP.
+
+## Zadanie 2.
+
+Na raize pominiętę ze względów technicznych.
+
+## Zadanie 3.
+
+
